@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Stories - Language Learning Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for stories page */
+        .stories-container {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .stories-sidebar {
+            width: 300px;
+            flex-shrink: 0;
+        }
+        
+        .stories-main {
+            flex-grow: 1;
+        }
+        
+        .generator-card {
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .generator-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .generator-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        
+        .form-group select, .form-group input {
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--background-dark);
+            background-color: var(--background-light);
+        }
+        
+        .vocabulary-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .vocabulary-chip {
+            padding: 0.25rem 0.75rem;
+            background-color: var(--primary-light);
+            color: var(--white);
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .remove-chip {
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .saved-stories {
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+        }
+        
+        .saved-stories h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .stories-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .story-item {
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .story-item:hover {
+            background-color: var(--background-light);
+        }
+        
+        .story-item.active {
+            background-color: var(--primary-light);
+            color: var(--white);
+        }
+        
+        .story-date {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+        
+        .story-item.active .story-date {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .story-card {
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .story-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--background-medium);
+        }
+        
+        .story-title {
+            font-size: 1.75rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .story-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        .story-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .highlighted-word {
+            color: var(--primary-color);
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .highlighted-word:hover {
+            text-decoration: underline;
+        }
+        
+        .word-tooltip {
+            position: absolute;
+            background-color: var(--text-dark);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+            max-width: 200px;
+        }
+        
+        .tooltip-word {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .tooltip-definition {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .comprehension-questions {
+            background-color: var(--background-light);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .comprehension-questions h3 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .question {
+            margin-bottom: 1.5rem;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .question-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .option-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background-color: var(--white);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .option-label:hover {
+            background-color: var(--background-medium);
+        }
+        
+        .option-label.correct {
+            background-color: rgba(16, 185, 129, 0.2);
+            border: 1px solid var(--secondary-color);
+        }
+        
+        .option-label.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+        }
+        
+        .loading-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            text-align: center;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--background-medium);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .stories-container {
+                flex-direction: column;
+            }
+            
+            .stories-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-container">
+                <h1>Language<span>Playground</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="scenarios.html">Scenarios</a></li>
+                    <li><a href="vocabulary.html">Vocabulary</a></li>
+                    <li><a href="pronunciation.html">Pronunciation</a></li>
+                    <li><a href="stories.html" class="active">Stories</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                </ul>
+            </nav>
+            <div class="user-controls">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="zh">Mandarin</option>
+                    </select>
+                </div>
+                <div class="profile-button">
+                    <img src="assets/profile-placeholder.png" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section class="page-header">
+                <h1>Custom Stories</h1>
+                <p>Read and interact with AI-generated stories using your vocabulary.</p>
+            </section>
+            
+            <section class="stories-container">
+                <div class="stories-sidebar">
+                    <div class="generator-card">
+                        <h3>Generate New Story</h3>
+                        <div class="generator-form">
+                            <div class="form-group">
+                                <label for="difficulty-select">Difficulty Level</label>
+                                <select id="difficulty-select">
+                                    <option value="beginner">Beginner</option>
+                                    <option value="intermediate">Intermediate</option>
+                                    <option value="advanced">Advanced</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="theme-input">Theme (optional)</label>
+                                <input type="text" id="theme-input" placeholder="e.g., Travel, Food, Adventure">
+                            </div>
+                            <div class="form-group">
+                                <label for="vocabulary-input">Include Vocabulary</label>
+                                <input type="text" id="vocabulary-input" placeholder="Enter a word and press Enter">
+                                <div class="vocabulary-chips">
+                                    <div class="vocabulary-chip">
+                                        casa <span class="remove-chip">×</span>
+                                    </div>
+                                    <div class="vocabulary-chip">
+                                        viaje <span class="remove-chip">×</span>
+                                    </div>
+                                    <div class="vocabulary-chip">
+                                        comida <span class="remove-chip">×</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="primary-button" id="generate-button">Generate Story</button>
+                        </div>
+                    </div>
+                    
+                    <div class="saved-stories">
+                        <h3>Your Stories</h3>
+                        <ul class="stories-list">
+                            <li class="story-item active">
+                                <span class="story-title">Un Día en la Ciudad</span>
+                                <span class="story-date">Today</span>
+                            </li>
+                            <li class="story-item">
+                                <span class="story-title">El Viaje Inesperado</span>
+                                <span class="story-date">Yesterday</span>
+                            </li>
+                            <li class="story-item">
+                                <span class="story-title">La Fiesta Sorpresa</span>
+                                <span class="story-date">3 days ago</span>
+                            </li>
+                            <li class="story-item">
+                                <span class="story-title">Un Restaurante Especial</span>
+                                <span class="story-date">1 week ago</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="stories-main">
+                    <div class="story-card" id="story-content">
+                        <div class="story-header">
+                            <h2 class="story-title">Un Día en la Ciudad</h2>
+                            <div class="story-meta">
+                                <span class="story-difficulty">Beginner</span>
+                                <span class="story-words">7 new words</span>
+                            </div>
+                        </div>
+                        <div class="story-content">
+                            <p>María camina por la <span class="highlighted-word" data-word="ciudad">ciudad</span>. Ella ve una <span class="highlighted-word" data-word="tienda">tienda</span> y decide entrar. En la tienda, hay muchas cosas interesantes. María compra un <span class="highlighted-word" data-word="libro">libro</span> y sale de la tienda. Luego, va a un <span class="highlighted-word" data-word="café">café</span> para leer su nuevo libro. En el café, pide un café con <span class="highlighted-word" data-word="leche">leche</span>. El café está <span class="highlighted-word" data-word="delicioso">delicioso</span>. María está <span class="highlighted-word" data-word="feliz">feliz</span> con su día en la ciudad.</p>
+                        </div>
+                        
+                        <div class="comprehension-questions">
+                            <h3>Comprehension Check</h3>
+                            <div class="question">
+                                <p class="question-text">¿Qué compra María en la tienda?</p>
+                                <div class="question-options">
+                                    <label class="option-label">
+                                        <input type="radio" name="question-0" value="0" data-correct="true">
+                                        Un libro
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-0" value="1" data-correct="false">
+                                        Un café
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-0" value="2" data-correct="false">
+                                        Una camisa
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-0" value="3" data-correct="false">
+                                        Un periódico
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="question">
+                                <p class="question-text">¿Dónde lee María su libro?</p>
+                                <div class="question-options">
+                                    <label class="option-label">
+                                        <input type="radio" name="question-1" value="0" data-correct="false">
+                                        En casa
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-1" value="1" data-correct="false">
+                                        En el parque
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-1" value="2" data-correct="true">
+                                        En el café
+                                    </label>
+                                    <label class="option-label">
+                                        <input type="radio" name="question-1" value="3" data-correct="false">
+                                        En la tienda
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="loading-indicator" id="loading-indicator" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p class="loading-text">Generating your custom story...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Language<span>Playground</span></h2>
+                    <p>Learn languages through immersive AI experiences</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><a href="scenarios.html">Scenarios</a></li>
+                            <li><a href="vocabulary.html">Vocabulary</a></li>
+                            <li><a href="pronunciation.html">Pronunciation</a></li>
+                            <li><a href="stories.html">Stories</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Languages</h4>
+                        <ul>
+                            <li><a href="#">Spanish</a></li>
+                            <li><a href="#">French</a></li>
+                            <li><a href="#">German</a></li>
+                            <li><a href="#">More languages</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Language Playground. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="api-simulation.js"></script>
+    <script src="pronunciation-analyzer.js"></script>
+    <script src="vocabulary-visualizer.js"></script>
+    <script src="story-generator.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Stories page specific script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize story generator
+            const storyGenerator = window.storyGenerator;
+            
+            // Set up vocabulary input
+            const vocabularyInput = document.getElementById('vocabulary-input');
+            const vocabularyChips = document.querySelector('.vocabulary-chips');
+            const selectedVocabulary = new Set(['casa', 'viaje', 'comida']);
+            
+            // Add vocabulary word on Enter key
+            vocabularyInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const word = vocabularyInput.value.trim();
+                    if (word && !selectedVocabulary.has(word)) {
+                        addVocabularyChip(word);
+                        selectedVocabulary.add(word);
+                        vocabularyInput.value = '';
+                    }
+                }
+            });
+            
+            // Function to add vocabulary chip
+            function addVocabularyChip(word) {
+                const chip = document.createElement('div');
+                chip.className = 'vocabulary-chip';
+                chip.innerHTML = `${word} <span class="remove-chip">×</span>`;
+                
+                // Add remove functionality
+                chip.querySelector('.remove-chip').addEventListener('click', () => {
+                    chip.remove();
+                    selectedVocabulary.delete(word);
+                });
+                
+                vocabularyChips.appendChild(chip);
+            }
+            
+            // Set up remove functionality for existing chips
+            document.querySelectorAll('.remove-chip').forEach(removeBtn => {
+                removeBtn.addEventListener('click', () => {
+                    const chip = removeBtn.parentElement;
+                    const word = chip.textContent.trim().replace('×', '').trim();
+                    chip.remove();
+                    selectedVocabulary.delete(word);
+                });
+            });
+            
+            // Generate button functionality
+            const generateButton = document.getElementById('generate-button');
+            generateButton.addEventListener('click', () => {
+                const difficulty = document.getElementById('difficulty-select').value;
+                const theme = document.getElementById('theme-input').value.trim();
+                const language = document.getElementById('language-select').value;
+                
+                // Show loading indicator
+                document.getElementById('story-content').style.display = 'none';
+                document.getElementById('loading-indicator').style.display = 'flex';
+                
+                // Prepare vocabulary data
+                const vocabularyData = Array.from(selectedVocabulary).map(term => ({
+                    term,
+                    definition: getDefaultDefinition(term)
+                }));
+                
+                // Generate story
+                storyGenerator
+                    .setVocabulary(vocabularyData)
+                    .setDifficulty(difficulty)
+                    .setLanguage(language)
+                    .setTheme(theme || null)
+                    .generateStory()
+                    .then(story => {
+                        // Hide loading indicator
+                        document.getElementById('loading-indicator').style.display = 'none';
+                        document.getElementById('story-content').style.display = 'block';
+                        
+                        // Update story content
+                        updateStoryUI(story);
+                        
+                        // Add to stories list
+                        addToStoriesList(story.title);
+                    })
+                    .catch(error => {
+                        console.error('Error generating story:', error);
+                        document.getElementById('loading-indicator').style.display = 'none';
+                        document.getElementById('story-content').style.display = 'block';
+                        alert('Error generating story. Please try again.');
+                    });
+            });
+            
+            // Function to update story UI
+            function updateStoryUI(story) {
+                const storyTitle = document.querySelector('.story-card .story-title');
+                const storyDifficulty = document.querySelector('.story-card .story-difficulty');
+                const storyWords = document.querySelector('.story-card .story-words');
+                const storyContent = document.querySelector('.story-card .story-content');
+                const comprehensionQuestions = document.querySelector('.comprehension-questions');
+                
+                // Update story header
+                storyTitle.textContent = story.title;
+                storyDifficulty.textContent = story.difficulty.charAt(0).toUpperCase() + story.difficulty.slice(1);
+                storyWords.textContent = `${story.vocabulary.length} new words`;
+                
+                // Process content to highlight vocabulary words
+                let content = story.content;
+                story.vocabulary.forEach(word => {
+                    // Create regex that matches whole word only
+                    const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                    content = content.replace(regex, `<span class="highlighted-word" data-word="${word}">${word}</span>`);
+                });
+                
+                storyContent.innerHTML = `<p>${content}</p>`;
+                
+                // Add vocabulary tooltip functionality
+                const highlightedWords = storyContent.querySelectorAll('.highlighted-word');
+                highlightedWords.forEach(word => {
+                    word.addEventListener('mouseover', (e) => {
+                        showWordTooltip(e.target);
+                    });
+                    
+                    word.addEventListener('mouseout', hideWordTooltip);
+                });
+                
+                // Update comprehension questions
+                if (story.questions && story.questions.length > 0) {
+                    let questionsHTML = '<h3>Comprehension Check</h3>';
+                    
+                    story.questions.forEach((question, qIndex) => {
+                        questionsHTML += `
+                            <div class="question">
+                                <p class="question-text">${question.question}</p>
+                                <div class="question-options">
+                        `;
+                        
+                        question.options.forEach((option, oIndex) => {
+                            questionsHTML += `
+                                <label class="option-label">
+                                    <input type="radio" name="question-${qIndex}" value="${oIndex}" data-correct="${oIndex === question.correctAnswer}">
+                                    ${option}
+                                </label>
+                            `;
+                        });
+                        
+                        questionsHTML += `
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    comprehensionQuestions.innerHTML = questionsHTML;
+                    
+                    // Add event listeners to radio buttons
+                    comprehensionQuestions.querySelectorAll('input[type="radio"]').forEach(radio => {
+                        radio.addEventListener('change', handleQuestionAnswer);
+                    });
+                } else {
+                    comprehensionQuestions.innerHTML = '<h3>No comprehension questions available</h3>';
+                }
+            }
+            
+            // Function to handle question answers
+            function handleQuestionAnswer(e) {
+                const isCorrect = e.target.dataset.correct === 'true';
+                const optionLabel = e.target.parentElement;
+                const options = optionLabel.parentElement.querySelectorAll('.option-label');
+                
+                // Clear previous feedback
+                options.forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect');
+                });
+                
+                // Add feedback
+                if (isCorrect) {
+                    optionLabel.classList.add('correct');
+                } else {
+                    optionLabel.classList.add('incorrect');
+                    
+                    // Show correct answer
+                    options.forEach(opt => {
+                        if (opt.querySelector('input').dataset.correct === 'true') {
+                            opt.classList.add('correct');
+                        }
+                    });
+                }
+            }
+            
+            // Function to show word tooltip
+            function showWordTooltip(wordElement) {
+                const word = wordElement.dataset.word;
+                const rect = wordElement.getBoundingClientRect();
+                
+                // Create tooltip if it doesn't exist
+                let tooltip = document.querySelector('.word-tooltip');
+                if (!tooltip) {
+                    tooltip = document.createElement('div');
+                    tooltip.className = 'word-tooltip';
+                    document.body.appendChild(tooltip);
+                }
+                
+                // Find definition
+                const definition = getDefaultDefinition(word);
+                
+                // Update tooltip content
+                tooltip.innerHTML = `
+                    <div class="tooltip-word">${word}</div>
+                    <div class="tooltip-definition">${definition || 'No definition available'}</div>
+                `;
+                
+                // Position tooltip
+                tooltip.style.left = `${rect.left + window.scrollX}px`;
+                tooltip.style.top = `${rect.bottom + window.scrollY + 5}px`;
+                tooltip.style.display = 'block';
+            }
+            
+            // Function to hide word tooltip
+            function hideWordTooltip() {
+                const tooltip = document.querySelector('.word-tooltip');
+                if (tooltip) {
+                    tooltip.style.display = 'none';
+                }
+            }
+            
+            // Function to get default definition for a word
+            function getDefaultDefinition(word) {
+                // Default definitions for demo
+                const defaultDefinitions = {
+                    'ciudad': 'city',
+                    'tienda': 'store',
+                    'libro': 'book',
+                    'café': 'coffee',
+                    'leche': 'milk',
+                    'delicioso': 'delicious',
+                    'feliz': 'happy',
+                    'casa': 'house, home',
+                    'viaje': 'trip, journey',
+                    'comida': 'food, meal',
+                    'tranquilo': 'quiet, calm',
+                    'espontáneo': 'spontaneous',
+                    'responsabilidades': 'responsibilities',
+                    'aventura': 'adventure',
+                    'maleta': 'suitcase',
+                    'estación': 'station',
+                    'paisaje': 'landscape',
+                    'emoción': 'emotion',
+                    'olas': 'waves',
+                    'planificados': 'planned'
+                };
+                
+                return defaultDefinitions[word.toLowerCase()] || null;
+            }
+            
+            // Function to add story to stories list
+            function addToStoriesList(title) {
+                const storiesList = document.querySelector('.stories-list');
+                const now = new Date();
+                
+                // Remove active class from all items
+                document.querySelectorAll('.story-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Create new story item
+                const storyItem = document.createElement('li');
+                storyItem.className = 'story-item active';
+                storyItem.innerHTML = `
+                    <span class="story-title">${title}</span>
+                    <span class="story-date">Just now</span>
+                `;
+                
+                // Add click event
+                storyItem.addEventListener('click', () => {
+                    document.querySelectorAll('.story-item').forEach(item => {
+                        item.classList.remove('active');
+                    });
+                    storyItem.classList.add('active');
+                    
+                    // In a real app, this would load the selected story
+                });
+                
+                // Add to list
+                storiesList.insertBefore(storyItem, storiesList.firstChild);
+            }
+            
+            // Story item click functionality
+            document.querySelectorAll('.story-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    document.querySelectorAll('.story-item').forEach(i => {
+                        i.classList.remove('active');
+                    });
+                    item.classList.add('active');
+                    
+                    // In a real app, this would load the selected story
+                });
+            });
+            
+            // Add tooltip functionality for highlighted words
+            document.querySelectorAll('.highlighted-word').forEach(word => {
+                word.addEventListener('mouseover', (e) => {
+                    showWordTooltip(e.target);
+                });
+                
+                word.addEventListener('mouseout', hideWordTooltip);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-container">
+                <h1>Language<span>Playground</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="scenarios.html">Scenarios</a></li>
+                    <li><a href="vocabulary.html">Vocabulary</a></li>
+                    <li><a href="pronunciation.html">Pronunciation</a></li>
+                    <li><a href="stories.html">Stories</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                </ul>
+            </nav>
+            <div class="user-controls">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="zh">Mandarin</option>
+                    </select>
+                </div>
+                <div class="profile-button">
+                    <img src="assets/profile-placeholder.png" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-card">
+                    <h2>Welcome to Language Playground</h2>
+                    <p>Your AI-powered language learning companion</p>
+                    <div class="level-indicator">
+                        <span>Current level: Beginner</span>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 25%"></div>
+                        </div>
+                    </div>
+                    <a href="progress.html"><button class="primary-button">Continue Learning</button></a>
+                </div>
+            </section>
+
+            <!-- Feature Sections -->
+            <section class="features-grid">
+                <!-- Conversation Scenarios -->
+                <div class="feature-card scenario-card">
+                    <div class="card-header">
+                        <h3>Conversation Scenarios</h3>
+                        <span class="badge">New</span>
+                    </div>
+                    <p>Practice real-world conversations with AI characters that adapt to your level.</p>
+                    <div class="scenario-preview">
+                        <div class="scenario-icon">
+                            <img src="assets/cafe-icon.svg" alt="Café Scenario">
+                        </div>
+                        <div class="scenario-info">
+                            <h4>At the Café</h4>
+                            <span class="difficulty">Beginner friendly</span>
+                        </div>
+                    </div>
+                    <a href="scenarios.html"><button class="secondary-button">Start Conversation</button></a>
+                </div>
+
+                <!-- Vocabulary Builder -->
+                <div class="feature-card vocabulary-card">
+                    <div class="card-header">
+                        <h3>Visual Vocabulary</h3>
+                    </div>
+                    <p>Learn new words with visual connections and interactive exercises.</p>
+                    <div class="word-cloud">
+                        <span class="word-item size-lg">casa</span>
+                        <span class="word-item size-md">familia</span>
+                        <span class="word-item size-sm">comida</span>
+                        <span class="word-item size-md">trabajo</span>
+                        <span class="word-item size-sm">ciudad</span>
+                    </div>
+                    <a href="vocabulary.html"><button class="secondary-button">Explore Vocabulary</button></a>
+                </div>
+
+                <!-- Pronunciation Coach -->
+                <div class="feature-card pronunciation-card">
+                    <div class="card-header">
+                        <h3>Pronunciation Coach</h3>
+                    </div>
+                    <p>Get real-time feedback on your pronunciation with visual guides.</p>
+                    <div class="pronunciation-preview">
+                        <div class="waveform-placeholder"></div>
+                        <button class="mic-button">
+                            <span class="mic-icon">🎤</span>
+                        </button>
+                    </div>
+                    <a href="pronunciation.html"><button class="secondary-button">Practice Pronunciation</button></a>
+                </div>
+
+                <!-- Story Generator -->
+                <div class="feature-card story-card">
+                    <div class="card-header">
+                        <h3>Custom Stories</h3>
+                    </div>
+                    <p>Read and interact with AI-generated stories using your vocabulary.</p>
+                    <div class="story-preview">
+                        <p class="story-excerpt">"María camina por la <span class="highlight">ciudad</span>. Ella ve una <span class="highlight">tienda</span> y decide entrar..."</p>
+                    </div>
+                    <a href="stories.html"><button class="secondary-button">Read Stories</button></a>
+                </div>
+            </section>
+
+            <!-- Cultural Context Section -->
+            <section class="cultural-section">
+                <h2>Cultural Insights</h2>
+                <div class="culture-cards-container">
+                    <div class="culture-card">
+                        <img src="assets/culture-placeholder-1.jpg" alt="Cultural Context">
+                        <h4>Dining Etiquette in Spain</h4>
+                        <p>Learn about meal times, tipping customs, and common phrases used in restaurants.</p>
+                        <a href="#" class="text-link">Learn more</a>
+                    </div>
+                    <div class="culture-card">
+                        <img src="assets/culture-placeholder-2.jpg" alt="Cultural Context">
+                        <h4>Greeting Customs</h4>
+                        <p>Discover how greetings differ across Spanish-speaking countries.</p>
+                        <a href="#" class="text-link">Learn more</a>
+                    </div>
+                    <div class="culture-card">
+                        <img src="assets/culture-placeholder-3.jpg" alt="Cultural Context">
+                        <h4>Festivals & Celebrations</h4>
+                        <p>Explore important cultural events and their vocabulary.</p>
+                        <a href="#" class="text-link">Learn more</a>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Language<span>Playground</span></h2>
+                    <p>Learn languages through immersive AI experiences</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><a href="scenarios.html">Scenarios</a></li>
+                            <li><a href="vocabulary.html">Vocabulary</a></li>
+                            <li><a href="pronunciation.html">Pronunciation</a></li>
+                            <li><a href="stories.html">Stories</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Languages</h4>
+                        <ul>
+                            <li><a href="#">Spanish</a></li>
+                            <li><a href="#">French</a></li>
+                            <li><a href="#">German</a></li>
+                            <li><a href="#">More languages</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Language Playground. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Conversation Modal -->
+    <div class="modal conversation-modal" id="conversationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Conversation: At the Café</h3>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="conversation-container">
+                    <div class="character-info">
+                        <img src="assets/character-waiter.png" alt="Waiter Character" class="character-avatar">
+                        <div class="character-details">
+                            <h4>Carlos</h4>
+                            <span class="character-role">Waiter</span>
+                        </div>
+                    </div>
+                    <div class="conversation-messages">
+                        <div class="message character-message">
+                            <p>¡Hola! Bienvenido a nuestro café. ¿Qué desea ordenar hoy?</p>
+                            <button class="translation-button">See translation</button>
+                        </div>
+                        <div class="message user-options">
+                            <button class="response-option">Me gustaría un café, por favor.</button>
+                            <button class="response-option">¿Qué recomiendas?</button>
+                            <button class="response-option">Solo estoy mirando el menú.</button>
+                        </div>
+                    </div>
+                    <div class="conversation-controls">
+                        <button class="mic-button large">
+                            <span class="mic-icon">🎤</span>
+                            <span class="mic-text">Speak</span>
+                        </button>
+                        <div class="text-input-container">
+                            <input type="text" placeholder="Or type your response...">
+                            <button class="send-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="conversation-sidebar">
+                    <div class="sidebar-section vocabulary-help">
+                        <h4>Key Vocabulary</h4>
+                        <ul class="vocabulary-list">
+                            <li><span class="term">ordenar</span> - to order</li>
+                            <li><span class="term">café</span> - coffee</li>
+                            <li><span class="term">recomendar</span> - to recommend</li>
+                            <li><span class="term">menú</span> - menu</li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-section cultural-note">
+                        <h4>Cultural Note</h4>
+                        <p>In Spanish cafés, it's common to greet with "¡Hola!" rather than a more formal greeting when entering casual establishments.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button">End Conversation</button>
+                <button class="primary-button">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api-simulation.js"></script>
+    <script src="pronunciation-analyzer.js"></script>
+    <script src="vocabulary-visualizer.js"></script>
+    <script src="story-generator.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

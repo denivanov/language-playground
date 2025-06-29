@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversation Scenarios - Language Learning Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Additional styles for scenarios page */
+        .scenarios-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .scenario-card-large {
+            background-color: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .scenario-card-large:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .scenario-image {
+            height: 160px;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .scenario-image img {
+            height: 80px;
+            width: 80px;
+        }
+        
+        .scenario-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .scenario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .scenario-title {
+            font-size: 1.25rem;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .scenario-description {
+            color: var(--text-medium);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+        
+        .scenario-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+        
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-label {
+            font-weight: 500;
+            color: var(--text-medium);
+        }
+        
+        .filter-select {
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--background-dark);
+            background-color: var(--background-light);
+            color: var(--text-medium);
+        }
+        
+        .search-box {
+            flex-grow: 1;
+            max-width: 400px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 0.5rem 1rem 0.5rem 2.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--background-dark);
+            background-color: var(--background-light);
+        }
+        
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="app-header">
+            <div class="logo-container">
+                <h1>Language<span>Playground</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="scenarios.html" class="active">Scenarios</a></li>
+                    <li><a href="vocabulary.html">Vocabulary</a></li>
+                    <li><a href="pronunciation.html">Pronunciation</a></li>
+                    <li><a href="stories.html">Stories</a></li>
+                    <li><a href="progress.html">Progress</a></li>
+                </ul>
+            </nav>
+            <div class="user-controls">
+                <div class="language-selector">
+                    <select id="language-select">
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="it">Italian</option>
+                        <option value="ja">Japanese</option>
+                        <option value="zh">Mandarin</option>
+                    </select>
+                </div>
+                <div class="profile-button">
+                    <img src="assets/profile-placeholder.png" alt="Profile">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <section class="page-header">
+                <h1>Conversation Scenarios</h1>
+                <p>Practice real-world conversations with AI characters that adapt to your level.</p>
+            </section>
+            
+            <section class="filter-section">
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <span class="filter-label">Difficulty:</span>
+                        <select class="filter-select" id="difficulty-filter">
+                            <option value="all">All Levels</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <span class="filter-label">Category:</span>
+                        <select class="filter-select" id="category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="daily">Daily Life</option>
+                            <option value="travel">Travel</option>
+                            <option value="business">Business</option>
+                            <option value="social">Social</option>
+                        </select>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" placeholder="Search scenarios..." id="scenario-search">
+                    </div>
+                </div>
+            </section>
+            
+            <section class="scenarios-grid">
+                <!-- Scenario 1 -->
+                <div class="scenario-card-large" data-difficulty="beginner" data-category="daily">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Café Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">At the Café</h3>
+                            <span class="badge">New</span>
+                        </div>
+                        <p class="scenario-description">Order drinks and food at a café. Practice basic greetings, asking for recommendations, and paying the bill.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Beginner friendly</span>
+                            <span class="duration">~10 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="cafe">Start Conversation</button>
+                    </div>
+                </div>
+                
+                <!-- Scenario 2 -->
+                <div class="scenario-card-large" data-difficulty="beginner" data-category="travel">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Airport Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">At the Airport</h3>
+                        </div>
+                        <p class="scenario-description">Check in for your flight, go through security, and find your gate. Practice travel vocabulary and asking for directions.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Intermediate</span>
+                            <span class="duration">~15 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="airport">Start Conversation</button>
+                    </div>
+                </div>
+                
+                <!-- Scenario 3 -->
+                <div class="scenario-card-large" data-difficulty="intermediate" data-category="daily">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Shopping Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">Shopping for Clothes</h3>
+                        </div>
+                        <p class="scenario-description">Shop for clothes, ask about sizes and colors, and make a purchase. Practice shopping vocabulary and expressions.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Intermediate</span>
+                            <span class="duration">~12 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="shopping">Start Conversation</button>
+                    </div>
+                </div>
+                
+                <!-- Scenario 4 -->
+                <div class="scenario-card-large" data-difficulty="intermediate" data-category="social">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Party Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">At a Party</h3>
+                        </div>
+                        <p class="scenario-description">Attend a social gathering, introduce yourself, and make small talk. Practice social expressions and conversation starters.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Intermediate</span>
+                            <span class="duration">~15 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="party">Start Conversation</button>
+                    </div>
+                </div>
+                
+                <!-- Scenario 5 -->
+                <div class="scenario-card-large" data-difficulty="advanced" data-category="business">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Job Interview Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">Job Interview</h3>
+                        </div>
+                        <p class="scenario-description">Participate in a job interview, discuss your qualifications, and ask questions about the position. Practice professional vocabulary.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Advanced</span>
+                            <span class="duration">~20 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="interview">Start Conversation</button>
+                    </div>
+                </div>
+                
+                <!-- Scenario 6 -->
+                <div class="scenario-card-large" data-difficulty="advanced" data-category="travel">
+                    <div class="scenario-image">
+                        <img src="assets/cafe-icon.svg" alt="Hotel Problem Scenario">
+                    </div>
+                    <div class="scenario-content">
+                        <div class="scenario-header">
+                            <h3 class="scenario-title">Hotel Problem</h3>
+                        </div>
+                        <p class="scenario-description">Deal with issues at your hotel, such as a room change or missing reservation. Practice problem-solving vocabulary.</p>
+                        <div class="scenario-meta">
+                            <span class="difficulty">Advanced</span>
+                            <span class="duration">~15 minutes</span>
+                        </div>
+                        <button class="primary-button start-scenario" data-scenario="hotel-problem">Start Conversation</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Language<span>Playground</span></h2>
+                    <p>Learn languages through immersive AI experiences</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h4>Features</h4>
+                        <ul>
+                            <li><a href="scenarios.html">Scenarios</a></li>
+                            <li><a href="vocabulary.html">Vocabulary</a></li>
+                            <li><a href="pronunciation.html">Pronunciation</a></li>
+                            <li><a href="stories.html">Stories</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Languages</h4>
+                        <ul>
+                            <li><a href="#">Spanish</a></li>
+                            <li><a href="#">French</a></li>
+                            <li><a href="#">German</a></li>
+                            <li><a href="#">More languages</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h4>Support</h4>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Language Playground. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Conversation Modal -->
+    <div class="modal conversation-modal" id="conversationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Conversation: At the Café</h3>
+                <button class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="conversation-container">
+                    <div class="character-info">
+                        <img src="assets/character-waiter.png" alt="Waiter Character" class="character-avatar">
+                        <div class="character-details">
+                            <h4>Carlos</h4>
+                            <span class="character-role">Waiter</span>
+                        </div>
+                    </div>
+                    <div class="conversation-messages">
+                        <div class="message character-message">
+                            <p>¡Hola! Bienvenido a nuestro café. ¿Qué desea ordenar hoy?</p>
+                            <button class="translation-button">See translation</button>
+                        </div>
+                        <div class="message user-options">
+                            <button class="response-option">Me gustaría un café, por favor.</button>
+                            <button class="response-option">¿Qué recomiendas?</button>
+                            <button class="response-option">Solo estoy mirando el menú.</button>
+                        </div>
+                    </div>
+                    <div class="conversation-controls">
+                        <button class="mic-button large">
+                            <span class="mic-icon">🎤</span>
+                            <span class="mic-text">Speak</span>
+                        </button>
+                        <div class="text-input-container">
+                            <input type="text" placeholder="Or type your response...">
+                            <button class="send-button">Send</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="conversation-sidebar">
+                    <div class="sidebar-section vocabulary-help">
+                        <h4>Key Vocabulary</h4>
+                        <ul class="vocabulary-list">
+                            <li><span class="term">ordenar</span> - to order</li>
+                            <li><span class="term">café</span> - coffee</li>
+                            <li><span class="term">recomendar</span> - to recommend</li>
+                            <li><span class="term">menú</span> - menu</li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-section cultural-note">
+                        <h4>Cultural Note</h4>
+                        <p>In Spanish cafés, it's common to greet with "¡Hola!" rather than a more formal greeting when entering casual establishments.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="secondary-button">End Conversation</button>
+                <button class="primary-button">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="api-simulation.js"></script>
+    <script src="pronunciation-analyzer.js"></script>
+    <script src="vocabulary-visualizer.js"></script>
+    <script src="story-generator.js"></script>
+    <script src="app.js"></script>
+    <script>
+        // Scenarios page specific script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Filter functionality
+            const difficultyFilter = document.getElementById('difficulty-filter');
+            const categoryFilter = document.getElementById('category-filter');
+            const searchInput = document.getElementById('scenario-search');
+            const scenarioCards = document.querySelectorAll('.scenario-card-large');
+            
+            function filterScenarios() {
+                const difficultyValue = difficultyFilter.value;
+                const categoryValue = categoryFilter.value;
+                const searchValue = searchInput.value.toLowerCase();
+                
+                scenarioCards.forEach(card => {
+                    const cardDifficulty = card.dataset.difficulty;
+                    const cardCategory = card.dataset.category;
+                    const cardTitle = card.querySelector('.scenario-title').textContent.toLowerCase();
+                    const cardDescription = card.querySelector('.scenario-description').textContent.toLowerCase();
+                    
+                    const matchesDifficulty = difficultyValue === 'all' || cardDifficulty === difficultyValue;
+                    const matchesCategory = categoryValue === 'all' || cardCategory === categoryValue;
+                    const matchesSearch = searchValue === '' || 
+                                         cardTitle.includes(searchValue) || 
+                                         cardDescription.includes(searchValue);
+                    
+                    if (matchesDifficulty && matchesCategory && matchesSearch) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            difficultyFilter.addEventListener('change', filterScenarios);
+            categoryFilter.addEventListener('change', filterScenarios);
+            searchInput.addEventListener('input', filterScenarios);
+            
+            // Start scenario buttons
+            const startButtons = document.querySelectorAll('.start-scenario');
+            startButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const scenarioId = button.dataset.scenario;
+                    const modal = document.getElementById('conversationModal');
+                    
+                    // Update modal title
+                    const modalTitle = modal.querySelector('.modal-header h3');
+                    modalTitle.textContent = `Conversation: ${button.closest('.scenario-card-large').querySelector('.scenario-title').textContent}`;
+                    
+                    // Show modal
+                    modal.classList.add('active');
+                    
+                    // Start conversation
+                    startConversationScenario(scenarioId);
+                });
+            });
+            
+            // Close modal button
+            const closeButton = document.querySelector('.close-button');
+            if (closeButton) {
+                closeButton.addEventListener('click', () => {
+                    document.getElementById('conversationModal').classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
